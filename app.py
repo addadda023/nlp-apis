@@ -5,7 +5,6 @@ from starlette.requests import Request
 from starlette.staticfiles import StaticFiles
 from scripts.sentiment import sentiment_text, sentiment_text_sentences
 from starlette.templating import Jinja2Templates
-from starlette.routing import Route
 import logging
 
 # Log transport
