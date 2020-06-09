@@ -63,6 +63,26 @@ async def sentiment_request(request: Request):
     return templates.TemplateResponse(template, context)
 
 
+@app.exception_handler(404)
+async def not_found(request, exc):
+    """
+    Return an HTTP 404 page.
+    """
+    template = "404.html"
+    context = {"request": request}
+    return templates.TemplateResponse(template, context, status_code=404)
+
+
+@app.exception_handler(405)
+async def server_error(request, exc):
+    """
+    Return an HTTP 405 page.
+    """
+    template = "405.html"
+    context = {"request": request}
+    return templates.TemplateResponse(template, context, status_code=405)
+
+
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 8000))
     uvicorn.run('app:app', host='0.0.0.0', port=port, log_level='info')
