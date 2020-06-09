@@ -6,6 +6,7 @@ from starlette.staticfiles import StaticFiles
 from scripts.sentiment import sentiment_text, sentiment_text_sentences
 from starlette.templating import Jinja2Templates
 import logging
+import os
 
 # Log transport
 logging.basicConfig(level=logging.INFO)
@@ -60,4 +61,5 @@ async def sentiment_request(request: Request):
 
 
 if __name__ == '__main__':
-    uvicorn.run('app:app', host='0.0.0.0', port=8000, log_level='info')
+    port = int(os.environ.get('PORT', 8000))
+    uvicorn.run('app:app', host='0.0.0.0', port=port, log_level='info')
