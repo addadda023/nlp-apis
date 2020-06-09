@@ -7,14 +7,16 @@ logging.basicConfig(level=logging.INFO)
 
 
 def sentiment_text(text):
+    text = text.lstrip().rstrip()
     analyze_text = TextBlob(text)
-    logging.info('Input text: {}'.format(text))
-    logging.info('Sentiment: {}'.format(analyze_text.sentiment.polarity))
+    logging.info('Sentiment of whole text: {}'.format(analyze_text.sentiment.polarity))
     return analyze_text.sentiment.polarity
 
 
 def sentiment_text_sentences(text):
+    text = text.lstrip().rstrip()
     sentiment_dict = collections.defaultdict(list)
+    sentiment_dict = {}
     analyze_text = TextBlob(text)
 
     # Get sentiment of each sentence.

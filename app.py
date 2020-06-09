@@ -50,12 +50,15 @@ async def sentiment_request(request: Request):
         inp_text = inp_text.get('input_text')
 
     logging.info('Received input: {}'.format(inp_text))
-    # text = params.get('input_text', '')
-    text_sentiment = sentiment_text(inp_text.lstrip().rstrip())
-    sentiment = 'Sentiment: ' + '{:.2f}'.format(text_sentiment)
+
+    # Sentiment of whole text
+    text_sentiment = sentiment_text(inp_text)
+    sentiment = 'Text Sentiment: ' + '{:.2f}'.format(text_sentiment)
 
     template = 'sentiment.html'
-    context = {'request': request, 'inp_text': 'Input: ' + inp_text, 'sentiment': sentiment}
+    context = {'request': request, 'inp_text': 'Input: ' + inp_text, 'sentiment': sentiment,
+               'contact_us': 'Want sentiment analysis by sentence?'}
+
     # return JSONResponse({'sentiment': text_sentiment}, headers=response_header)
     return templates.TemplateResponse(template, context)
 
