@@ -29,10 +29,18 @@
             <!-- Grid row -->
               <div class="form-group row">
                 <div class="col-sm-10">
-                  <button type="submit" id='btnFetch' class="btn btn-primary btn-md">Submit</button>
+                  <button type="submit" id='btnFetch' class="btn btn-primary btn-md" onclick="modal_sentiment();">Submit</button>
                 </div>
               </div>
         </form>
+        </div>
+
+        <div class="container">
+            <div class="modal fade bd-example-modal-lg" data-backdrop="static" data-keyboard="false" tabindex="-1">
+                <div class="modal-dialog modal-sm">
+                  <span class="fa fa-spinner fa-spin fa-3x" style="font-size:48px"></span>
+                </div>
+            </div>
         </div>
 
         <div class="container">

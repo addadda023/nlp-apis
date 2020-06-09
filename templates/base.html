@@ -47,28 +47,19 @@
         margin-bottom: 8%;
         margin-top: -10%;
         text-align: center;
-        color: #0062cc;
     }
-    .contact-form .btnContact {
-        width: 50%;
+
+    .bd-example-modal-lg .modal-dialog{
+        display: table;
+        position: relative;
+        margin: 0 auto;
+        top: calc(50% - 24px);
+        }
+
+        .bd-example-modal-lg .modal-dialog .modal-content{
+        background-color: transparent;
         border: none;
-        border-radius: 1rem;
-        padding: 1.5%;
-        background: #dc3545;
-        font-weight: 600;
-        color: #fff;
-        cursor: pointer;
-    }
-    .btnContactSubmit
-    {
-        width: 50%;
-        border-radius: 1rem;
-        padding: 1.5%;
-        color: #fff;
-        background-color: #0062cc;
-        border: none;
-        cursor: pointer;
-    }
+        }
 
   </style>
 </head>
@@ -110,7 +101,15 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous"></script>
-    <script>$(document).ready(function() { $('body').bootstrapMaterialDesign(); });</script>
+    <script>$(document).ready(function() { $('body').bootstrapMaterialDesign(); });
+
+    function modal_sentiment(){
+       $('.modal').modal('show');
+       setTimeout(function () {
+       	$('.modal').modal('hide');
+       }, 1000);
+    }
+    </script>
 
 </body>
 
