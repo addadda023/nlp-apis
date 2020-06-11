@@ -87,14 +87,14 @@ async def sentiment_home(request):
     filename = form['upload_pdf'].filename
     contents = await form['upload_pdf'].read()
 
+    if not contents:
+        context['text'] = ['Oops empty file, try again.']
+
     if not allowed_file(filename):
         context['text'] = ['Format not allowed.']
 
     elif len(contents)//1024 >= 300:
         context['text'] = ['File size too large.']
-
-    elif not contents:
-        context['text'] = ['Oops empty file, try again.']
 
     elif contents and allowed_file(filename) and len(contents)//1024 < 300:
         # https://github.com/encode/starlette/issues/775
