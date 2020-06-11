@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <!-- Page Content -->
+    <!-- Header Content -->
+      <div class="container">
+        <div class="row justify-content-center text-center row top-buffer mt-5">
+            <h3 class="display-3">OCR in pdf</h3>
+        </div>
+        </div>
+
+    <div class="container">
+        <form class="form" method="post" enctype="multipart/form-data" action="/ocr">
+            <div class="md-form form-group">
+                <input type="file" id="myfile" name="upload_pdf"><br><br>
+            </div>
+
+            <div class="form-group row">
+                <div class="col">
+                    <button type="submit" id="btnFetch" class="btn btn-primary btn-md" onclick="modal_ocr();">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="container">
+        <div class="modal fade bd-example-modal-lg" data-backdrop="static" data-keyboard="false" tabindex="-1">
+            <div class="modal-dialog modal-sm">
+              <span class="fa fa-spinner fa-spin fa-3x" style="font-size:48px"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <tr><a class="row top-buffer mt-4" style="font-size:15px;">
+            {% for _ in text %}
+            {{_|safe}}
+            {% endfor %}
+        </a></tr>
+    </div>
+
+{% endblock %}
+
