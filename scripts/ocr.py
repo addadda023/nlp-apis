@@ -41,6 +41,3 @@ def get_text_from_pdf_blob(pdf):
     r = '<br />'
     extracted_text = [_.replace('\r\n', r).replace('\n\r', r).replace('\r', r).replace('\n', r) for _ in extracted_text]
     return extracted_text
-
-e_t = get_text_from_pdf_blob(r'/Users/a/PycharmProjects/sentence-sentiment/static/pdf/test_pdf.pdf')
-# e_t = get_text_from_image(r'/Users/a/PycharmProjects/sentence-sentiment/static/pdf/test_pdf.pdf')
