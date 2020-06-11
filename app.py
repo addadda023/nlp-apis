@@ -4,9 +4,13 @@ from starlette.responses import JSONResponse, HTMLResponse
 from starlette.requests import Request
 from starlette.staticfiles import StaticFiles
 from scripts.sentiment import sentiment_text, sentiment_text_sentences
+from scripts.ocr import get_text_from_pdf, get_text_from_pdf_blob
 from starlette.templating import Jinja2Templates
 import logging
 import os
+
+ALLOWED_EXTENSIONS = set(['pdf'])
+
 
 # Log transport
 logging.basicConfig(level=logging.INFO)
@@ -14,7 +18,13 @@ logging.basicConfig(level=logging.INFO)
 templates = Jinja2Templates(directory='templates')
 
 app = Starlette(debug=True)
-app.mount('/static', StaticFiles(directory='static'), name='Static')
+app.mount(r'/static', StaticFiles(directory='static'), name='Static')
+# app.mount('/uploads', StaticFiles(directory='uploads'), name='Upload')
+
+
+def allowed_file(filename):
+    return filename[-3:].lower() in ALLOWED_EXTENSIONS
+
 
 # Needed to avoid cross-domain issues
 response_header = {
@@ -60,6 +70,48 @@ async def sentiment_request(request: Request):
                'contact_us': 'Want sentiment analysis by sentence?'}
 
     # return JSONResponse({'sentiment': text_sentiment}, headers=response_header)
+    return templates.TemplateResponse(template, context)
+
+
+@app.route('/ocr')
+async def sentiment_home(request):
+    template = 'ocr.html'
+    context = {'request': request}
+    return templates.TemplateResponse(template, context)
+
+
+@app.route('/ocr', methods=['POST'])
+async def sentiment_home(request):
+    context = {'request': request}
+    form = await request.form()
+    filename = form['upload_pdf'].filename
+    contents = await form['upload_pdf'].read()
+
+    if not allowed_file(filename):
+        context['text'] = ['Format not allowed.']
+
+    elif len(contents)//1024 >= 300:
+        context['text'] = ['File size too large.']
+
+    elif not contents:
+        context['text'] = ['Oops empty file, try again.']
+
+    elif contents and allowed_file(filename) and len(contents)//1024 < 300:
+        # https://github.com/encode/starlette/issues/775
+        # Limit file size to 300kB
+        with open(r'uploads/{}'.format(filename), 'wb') as f:
+            f.write(contents)
+            logging.info('Successfully wrote {} to uploads.'.format(filename))
+
+        # Call OCR function
+        extracted_text = get_text_from_pdf_blob(r'uploads/' + filename)
+        context['text'] = extracted_text
+
+        # Clean-up
+        os.remove(r'uploads/{}'.format(filename))
+        logging.info('Deleted {} from uploads after processing'.format(filename))
+
+    template = 'ocr.html'
     return templates.TemplateResponse(template, context)
 
 
