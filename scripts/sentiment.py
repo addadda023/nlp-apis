@@ -20,7 +20,6 @@ def sentiment_text(text):
 def sentiment_text_sentences(text):
     text = text.lstrip().rstrip()
     sentiment_dict = collections.defaultdict(list)
-    sentiment_dict = {}
     analyze_text = TextBlob(text)
 
     # Get sentiment of each sentence.
