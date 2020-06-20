@@ -5,7 +5,8 @@ from nltk.tokenize import sent_tokenize, word_tokenize
 import collections
 import inflect
 import contractions
-import re,unicodedata
+import re
+import unicodedata
 
 
 def replace_contractions(text):
@@ -69,10 +70,10 @@ def lemmatize_verbs(words):
 
 def normalize(words):
     words = remove_non_ascii(words)
-    # words = to_lowercase(words)
+    words = to_lowercase(words)
     words = remove_punctuation(words)
     # words = replace_numbers(words)
-    # words = remove_stopwords(words)
+    words = remove_stopwords(words)
 
     return words
 
@@ -85,21 +86,23 @@ def stem_and_lemmatize(words):
 
 
 def process_text(text):
-    """Returns word and sentence tokens"""
+    """Returns word and sentence tokens and sentences"""
     text = replace_contractions(text)
+
     tokens = word_tokenize(text)
-    sents = sent_tokenize(text)
+    sentences = sent_tokenize(text)
 
-    # Process word tokens
-    word_tokens = normalize(tokens)
+    # Process word tokens. Get lemmas
+    _, word_tokens = stem_and_lemmatize(tokens)
 
-    # Feed each sentence token to same pipeline and stitch back
-    sents_tokens = []
-    for sent in sents:
+    # For each sentence token, feed sentence to lemma pipeline and store in a dict
+    sentences_tokens = []
+    for sent in sentences:
         sent = sent.split()
-        sents_tokens.append(' '.join(normalize(sent)))
+        _, sent_token = stem_and_lemmatize(sent)
+        sentences_tokens.append(sent_token)
 
-    return word_tokens, sents_tokens
+    return word_tokens, sentences_tokens, sentences
 
 
 def count_words(tokens):
@@ -120,17 +123,16 @@ def word_freq_distribution(word_counts):
     return freq_dist
 
 
-def score_sentences(sents, freq_dist, max_len=40):
+def score_sentences(sentences, sentences_tokens, freq_dist):
     """Score sentences by frequency distribution.
     max_len = maximum length to sentences which are to be considered
     """
     sent_scores = collections.defaultdict(float)
     keys = set(freq_dist.keys())
 
-    for sent in sents:
-        words = sent.split()
-        for word in words:
-            if word in keys and len(words) < max_len:
-                sent_scores[sent] += freq_dist[word]
+    for index, sent in enumerate(sentences):
+        for word in sentences_tokens[index]:
+            if word in keys:
+                sent_scores[index, sent] += freq_dist[word]
 
     return sent_scores
