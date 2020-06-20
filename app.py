@@ -5,6 +5,7 @@ from starlette.requests import Request
 from starlette.staticfiles import StaticFiles
 from scripts.sentiment import sentiment_text, sentiment_text_sentences
 from scripts.ocr import get_text_from_pdf, get_text_from_pdf_blob
+from scripts.summarize import generate_summary
 from starlette.templating import Jinja2Templates
 import logging
 import os
@@ -74,14 +75,14 @@ async def sentiment_request(request: Request):
 
 
 @app.route('/ocr')
-async def sentiment_home(request):
+async def ocr_home(request):
     template = 'ocr.html'
     context = {'request': request}
     return templates.TemplateResponse(template, context)
 
 
 @app.route('/ocr', methods=['POST'])
-async def sentiment_home(request):
+async def ocr_request(request):
     context = {'request': request}
     form = await request.form()
     filename = form['upload_pdf'].filename
@@ -112,6 +113,30 @@ async def sentiment_home(request):
         logging.info('Deleted {} from uploads after processing'.format(filename))
 
     template = 'ocr.html'
+    return templates.TemplateResponse(template, context)
+
+
+@app.route('/summarize')
+async def summarize_home(request):
+    template = 'summarize.html'
+    context = {'request': request}
+    return templates.TemplateResponse(template, context)
+
+
+@app.route('/summarize', methods=['POST'])
+async def summarize_request(request):
+    if request.method == 'POST':
+        text = await request.form()
+        text = text.get('input_text')
+
+        logging.info('Received input: {}'.format(text))
+        summary = generate_summary(text, k=4)
+
+    template = 'summarize.html'
+    context = {'request': request, 'summary': summary,
+               'contact_us': 'Request API'}
+
+    # return JSONResponse({'sentiment': text_sentiment}, headers=response_header)
     return templates.TemplateResponse(template, context)
 
 
