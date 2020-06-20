@@ -9,3 +9,5 @@ nltk
 pytesseract
 wand
 Pillow
+contractions
+inflect
