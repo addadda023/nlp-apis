@@ -105,6 +105,20 @@ def process_text(text):
     return word_tokens, sentences_tokens, sentences
 
 
+def process_text_sentiment(text):
+    """Returns processed text for sentiment analysis"""
+    text = replace_contractions(text)
+    sentences = sent_tokenize(text)
+
+    tokenized_sentences = ''
+    for sent in sentences:
+        sent = sent.split()
+        _, sent_token = stem_and_lemmatize(sent)
+        tokenized_sentences += (' '.join(sent_token)) + '.'
+
+    return tokenized_sentences
+
+
 def count_words(tokens):
     """Count words"""
     word_counts = collections.defaultdict(int)

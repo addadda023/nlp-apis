@@ -1,7 +1,7 @@
 from textblob import TextBlob
 import collections
 import logging
-from .text_utils import process_text
+from .text_utils import process_text_sentiment
 import time
 
 # Log transport
@@ -9,11 +9,11 @@ logging.basicConfig(level=logging.INFO)
 
 
 def sentiment_text(text):
-    text = process_text(text)
+    text = process_text_sentiment(text)
     logging.info('Post-processed text: {}'.format(text))
     analyze_text = TextBlob(text)
     logging.info('Sentiment of whole text: {}'.format(analyze_text.sentiment.polarity))
-    time.sleep(.8)
+    # time.sleep(.8)
     return analyze_text.sentiment.polarity
 
 
