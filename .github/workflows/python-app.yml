@@ -35,6 +35,8 @@ jobs:
         echo -e "import nltk\nnltk.download('punkt')" | python3
         # download stopwords
         echo -e "import nltk\nnltk.download('stopwords')" | python3
+        # wordnet
+        echo -e "import nltk\nnltk.download('wordnet')" | python3
     - name: Test with pytest
       run: |
         pytest
