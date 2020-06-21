@@ -15,7 +15,7 @@
         <form class="form" method="post" action="/summarize">
             <div class="md-form form-group">
                 <label for="textarea-char-counter" class="bmd-label-floating">Type text</label>
-                <textarea class="form-control md-textarea" id="textarea-char-counter" length="120" rows="10" name="input_text"></textarea>
+                <textarea class="form-control md-textarea" id="textarea-char-counter" length="120" rows="20" name="input_text"></textarea>
             </div>
             <!-- Grid row -->
               <div class="form-group row">
@@ -36,7 +36,7 @@
 
         <div class="container">
             <tr><a class="row top-buffer mt-4" style="font-size:20px;">{{summary}}</a></tr>
-            <tr><a class="row top-buffer mt-2" style="font-size:20px;" href="/contact">{{contact_us}}</a></tr>
+            <tr><a class="row top-buffer mt-2" style="font-size:20px;" href="mailto:basicnlptools@gmail.com">{{contact_us}}</a></tr>
         </div>
 
 {% endblock %}
