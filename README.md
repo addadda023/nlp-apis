@@ -6,6 +6,7 @@
 * Sentiment Analysis
 * Text summary API
 
+
 ## Architecture
 ![System Architecture](/static/images/system_design.png)
 
