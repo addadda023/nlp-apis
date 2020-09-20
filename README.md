@@ -7,6 +7,5 @@
 * Text summary API
 
 
-## Architecture
+## System Architecture
 ![System Architecture](/static/images/system_design.png)
-
